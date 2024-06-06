@@ -1,5 +1,7 @@
 const container = document.querySelector("#container");
 const genBtn = document.querySelector("#genBtn")
+const canv_res = document.querySelector("#canv_res")
+const clrBtn = document.querySelector("#clrBtn")
 
 function createRows(count) {
     for (let i = 1; i <= count; i++) {
@@ -24,15 +26,35 @@ function createGrid(count) {
     createRows(count)
 }
 
+function btnPrompt() {
+    let res = prompt("Enter a resolution:")
+    return res
+}
 
-
-genBtn.addEventListener("click", () => {
-    let pixels = prompt("Set the size of the grid:")
-    createGrid(pixels);
+function btnEvent() {
+    let pixels = btnPrompt()
+    if (pixels > 100) {
+        alert("Enter a value under 100!")
+        btnEvent()
+    } else if (pixels === null) {
+        return
+    } else {
+        createGrid(pixels)
+        canv_res.textContent = `${pixels}x${pixels}`
+    }
     let grids = document.querySelectorAll(".grids")
     grids.forEach((addColor) => {
     addColor.addEventListener("mouseover", () => {
         addColor.classList.add("colored")
     })
-})
+    })
+}
+
+genBtn.addEventListener("click", btnEvent)
+
+clrBtn.addEventListener("click", () => {
+    let grids = document.querySelectorAll(".grids")
+    grids.forEach((removeColor) => {
+        removeColor.classList.remove("colored")
+    })
 })
